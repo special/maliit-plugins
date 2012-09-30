@@ -34,7 +34,6 @@
 #include "keyareaitem.h"
 #include "keyitem.h"
 #include "wordribbonitem.h"
-#include "graphicsview.h"
 #include "utils.h"
 
 #include "models/keyarea.h"
@@ -177,79 +176,6 @@ public:
         }
     }
 };
-
-class RootItem
-    : public QGraphicsItem
-{
-private:
-    QRectF m_rect;
-
-public:
-    explicit RootItem(QGraphicsItem *parent = 0)
-        : QGraphicsItem(parent)
-        , m_rect()
-    {
-        setFlag(QGraphicsItem::ItemHasNoContents);
-    }
-
-    void setRect(const QRectF &rect)
-    {
-        m_rect = rect;
-    }
-
-    virtual QRectF boundingRect() const
-    {
-        return m_rect;
-    }
-
-    virtual void paint(QPainter *,
-                       const QStyleOptionGraphicsItem *,
-                       QWidget *)
-    {}
-};
-
-QGraphicsView * createView(QWidget *widget,
-                           AbstractBackgroundBuffer *buffer)
-{
-    GraphicsView *view = new GraphicsView(widget);
-    view->setBackgroundBuffer(buffer);
-    view->resize(widget->size());
-    view->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
-    view->setOptimizationFlags(QGraphicsView::DontClipPainter | QGraphicsView::DontSavePainterState);
-    QGraphicsScene *scene = new QGraphicsScene(view);
-    view->setScene(scene);
-    view->setSceneRect(widget->rect());
-    view->setFrameShape(QFrame::NoFrame);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-#ifdef MALIIT_KEYBOARD_HAVE_OPENGL
-    QGLWidget *gl_widget = new QGLWidget;
-    if (gl_widget->isValid()) {
-        view->setViewport(gl_widget);
-        view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    } else {
-        delete gl_widget;
-    }
-#endif
-
-    // If there is no buffer, it probably means we run stand-alone. But when
-    // run as a maliit-server plugin, the server takes care of making any
-    // background widget visible. Without the server, we have to make the
-    // QGraphicsView translucent ourselves:
-    if (not buffer) {
-        view->setBackgroundBrush(Qt::transparent);
-        view->setBackgroundRole(QPalette::NoRole);
-        view->setWindowFlags(Qt::FramelessWindowHint);
-        view->setAttribute(Qt::WA_NoSystemBackground);
-        view->viewport()->setAutoFillBackground(false);
-    }
-
-    scene->setSceneRect(widget->rect());
-    view->show();
-
-    return view;
-}
 
 void recycleKeyItem(QVector<KeyItem *> *key_items,
                     int index,
