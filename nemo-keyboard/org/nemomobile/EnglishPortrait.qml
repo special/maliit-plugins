@@ -109,6 +109,12 @@ MouseArea {
         return null;
     }
 
+    Popper {
+        id: popper
+        z: 10
+        target: pressedKey
+    }
+
     Column {
         id: keyArea
         spacing: 16
