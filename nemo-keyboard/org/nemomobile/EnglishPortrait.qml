@@ -32,8 +32,9 @@ import "KeyboardUiConstants.js" as UI
 
 Column {
     id: keyArea
-    anchors.fill: parent
-    anchors.topMargin: 8
+    width: UI.PORTRAIT_WIDTH
+    height: UI.PORTRAIT_HEIGHT
+    y: 8
 
     property bool isShifted: false
     property bool isShiftLocked: false
