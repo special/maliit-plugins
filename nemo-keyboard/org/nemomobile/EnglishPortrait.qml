@@ -54,15 +54,13 @@ Column {
     property int keyHeight: UI.portraitHeight
     property int keyMargin: (columns == 11) ? UI.portraitMarginNarrow : UI.portraitMargin
 
-    spacing: 16
-
     Row { //Row 1
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: keyMargin
         Repeater {
             model: row1
             CharacterKey {
-                width: keyWidth; height: keyHeight
+                width: keyWidth + keyMargin
+                height: keyHeight + 16
                 caption: row1[index][0]
                 captionShifted: row1[index][0].toUpperCase()
                 symView: row1[index][1]
@@ -73,12 +71,11 @@ Column {
 
     Row { //Row 2
         anchors.horizontalCenter: parent.horizontalCenter
-
-        spacing: keyMargin
         Repeater {
             model: row2
             CharacterKey {
-                width: keyWidth; height: keyHeight
+                width: keyWidth + keyMargin
+                height: keyHeight + 16
                 caption: row2[index][0]
                 captionShifted: row2[index][0].toUpperCase()
                 symView: row2[index][1]
@@ -116,11 +113,11 @@ Column {
         }
 
         Row {
-            spacing: keyMargin
             Repeater {
                 model: row3
                 CharacterKey {
-                    width: keyWidth; height: keyHeight
+                    width: keyWidth + keyMargin
+                    height: keyHeight + 16
                     caption: row3[index][0]
                     captionShifted: row3[index][0].toUpperCase()
                     symView: row3[index][1]
@@ -147,10 +144,9 @@ Column {
         }
 
         Row {
-            spacing: 8
-            CharacterKey { caption: ","; captionShifted: ","; width: 56; height: keyHeight; sizeType: "keyboard-key-56x60.png" }
-            CharacterKey { caption: " "; captionShifted: " "; width: 136; height: keyHeight; sizeType: "keyboard-key-136x60.png" }
-            CharacterKey { caption: "."; captionShifted: "."; width: 56; height: keyHeight; sizeType: "keyboard-key-56x60.png" }
+            CharacterKey { caption: ","; captionShifted: ","; width: 56 + keyMargin; height: keyHeight; sizeType: "keyboard-key-56x60.png" }
+            CharacterKey { caption: " "; captionShifted: " "; width: 136 + keyMargin; height: keyHeight; sizeType: "keyboard-key-136x60.png" }
+            CharacterKey { caption: "."; captionShifted: "."; width: 56 + keyMargin; height: keyHeight; sizeType: "keyboard-key-56x60.png" }
         }
 
         FunctionKey {

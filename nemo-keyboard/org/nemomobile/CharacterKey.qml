@@ -32,7 +32,7 @@
 import QtQuick 1.1
 import "KeyboardUiConstants.js" as UI
 
-Image {
+Text {
     id: aCharKey
     property string caption: ""
     property string captionShifted: ""
@@ -42,21 +42,20 @@ Image {
     property string sizeType: "keyboard-key-43x60.png"
     property bool pressed: false
 
-    property alias text: key_label.text
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
+    font.family: "sans"
+    font.pixelSize: fontSize
+    font.bold: true
+    color: UI.TEXT_COLOR
+    text: (inSymView && symView.length) > 0 ? (inSymView2 ? symView2 : symView) : (isShifted ? captionShifted : caption)
 
-    source: sizeType
-    opacity: pressed ? 0.5 : 1
-
-    Text {
-        id: key_label
+    Image {
+        id: background
+        z: -1
+        source: sizeType
+        opacity: pressed ? 0.5 : 1
         anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        font.family: "sans"
-        font.pixelSize: fontSize
-        font.bold: true
-        color: UI.TEXT_COLOR
-        text: (inSymView && symView.length) > 0 ? (inSymView2 ? symView2 : symView) : (isShifted ? captionShifted : caption)
     }
 }
 
